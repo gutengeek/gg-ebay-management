@@ -8,6 +8,7 @@ class EBay_Filter {
 	 */
 	public function __construct() {
 		add_action( 'restrict_manage_posts', [ $this, 'restrict_manage_posts' ] );
+		add_action( 'parse_query', [ $this, 'search_custom_fields' ] );
 	}
 
 	/**
@@ -122,5 +123,71 @@ class EBay_Filter {
             </select>
 			<?php
 		}
+	}
+
+	/**
+	 * Query custom fields as well as content.
+	 *
+	 * @param \WP_Query $wp The WP_Query object.
+	 *
+	 * @access private
+	 */
+	public function search_custom_fields( $wp ) {
+		global $pagenow;
+
+		if ( 'edit.php' !== $pagenow
+		     || empty( $wp->query_vars['s'] )
+		     || 'ggem_ebay' !== $wp->query_vars['post_type']
+		     || ! isset( $_GET['s'] ) ) {
+			return;
+		}
+
+		$post_ids = $this->search_account_by_term( ggem_clean( wp_unslash( $_GET['s'] ) ) ); // WPCS: input var ok, sanitization ok.
+
+		if ( ! empty( $post_ids ) ) {
+			// Remove "s" - we don't want to search order name.
+			unset( $wp->query_vars['s'] );
+
+			// Query by found posts.
+			$wp->query_vars['post__in'] = array_merge( $post_ids, [ 0 ] );
+		}
+	}
+
+	/**
+	 * Query property data for a term and return IDs.
+	 *
+	 * Use for 'post__in' in WP_Query.
+	 *
+	 * @param string $term The term to search.
+	 * @return array
+	 */
+	protected function search_account_by_term( $term ) {
+		global $wpdb;
+
+		// Filters the search fields.
+		$search_fields = array_map( 'ggem_clean', apply_filters( 'ggem_search_ebay_fields', [
+			GGEM_METABOX_PREFIX . 'sku',
+			GGEM_METABOX_PREFIX . 'email',
+			GGEM_METABOX_PREFIX . 'user_id',
+		] ) );
+
+		// Prepare search bookings.
+		$property_ids = [];
+
+		if ( is_numeric( $term ) ) {
+			$property_ids[] = absint( $term );
+		}
+
+		if ( ! empty( $search_fields ) ) {
+			$search = $wpdb->get_col( $wpdb->prepare(
+				"SELECT DISTINCT `p1`.`post_id` FROM {$wpdb->postmeta} AS `p1` WHERE `p1`.`meta_value` LIKE %s AND `p1`.`meta_key` IN ('" . implode( "','",
+					array_map( 'esc_sql', $search_fields ) ) . "')", // @codingStandardsIgnoreLine
+				'%' . $wpdb->esc_like( ggem_clean( $term ) ) . '%'
+			) );
+
+			$property_ids = array_unique( array_merge( $property_ids, $search ) );
+		}
+
+		return apply_filters( 'ggem_search_ebay_results', $property_ids, $term, $search_fields );
 	}
 }
