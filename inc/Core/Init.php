@@ -202,12 +202,13 @@ class Init {
 	private function define_admin_metabox() {
 		// Register post type metabox
 		$metaboxes = [
-			'admin/metabox/ggem_ebay' => Metabox\EBay_Account_Metabox::class,
+			'admin/metabox/ggem_ebay'    => Metabox\EBay_Account_Metabox::class,
+			'admin/metabox/ggem_server'  => Metabox\Server_Term_Meta::class,
+			'admin/metabox/ggem_payment' => Metabox\Payment_Term_Meta::class,
 		];
 
-		// register metaxbox for custom post type ;
+		// register metaxbox for custom post type
 		foreach ( $metaboxes as $key => $metabox_class ) {
-
 			$metabox = ( new $metabox_class() );
 
 			if ( $metabox->get_mode() == 'taxonomy' ) {
@@ -221,7 +222,6 @@ class Init {
 
 				$this->loader->add_action( 'created_term', $metabox, 'save', 10, 3 );
 				$this->loader->add_action( 'edited_terms', $metabox, 'save', 10, 3 );
-
 				$this->loader->add_action( 'edited_terms', $metabox, 'delete', 10, 3 );
 
 				add_action( 'created_term', [ $metabox, 'save_term' ], 10, 3 );

@@ -5,10 +5,10 @@ namespace GGEM\Common\Model\Entity;
 use WP_Error;
 use WP_Post;
 
-class Stripe_Entity {
+class EBay_Entity {
 
 	/**
-	 * The stripe account ID
+	 * The ebay account ID
 	 */
 	public $ID = 0;
 
@@ -40,27 +40,27 @@ class Stripe_Entity {
 	public $filter;
 
 	public function __construct( $_id ) {
-		$stripe    = WP_Post::get_instance( $_id );
-		$this->ID  = $_id;
+		$ebay     = WP_Post::get_instance( $_id );
+		$this->ID = $_id;
 
-		return $this->setup( $stripe );
+		return $this->setup( $ebay );
 	}
 
 	/**
-	 * Magic __get function to dispatch a call to retrieve a private stripe
+	 * Magic __get function to dispatch a call to retrieve a private ebay
 	 */
 	public function __get( $key ) {
 		if ( method_exists( $this, 'get_' . $key ) ) {
 			return call_user_func( [ $this, 'get_' . $key ] );
 		} else {
-			return new WP_Error( 'ggem-invalid-stripe', sprintf( esc_html__( 'Can\'t get stripe %s', 'ggem' ), $key ) );
+			return new WP_Error( 'ggem-invalid-ebay', sprintf( esc_html__( 'Can\'t get ebay %s', 'ggem' ), $key ) );
 		}
 	}
 
 	/**
-	 * Creates a stripe
+	 * Creates a ebay
 	 *
-	 * @param array $data Array of attributes for a stripe
+	 * @param array $data Array of attributes for a ebay
 	 * @return mixed  false if data isn't passed and class not instantiated for creation, or New Download ID
 	 * @since 1.0
 	 */
@@ -70,15 +70,15 @@ class Stripe_Entity {
 		}
 
 		$defaults = [
-			'post_type'   => 'ggem_stripe',
+			'post_type'   => 'ggem_ebay',
 			'post_status' => 'draft',
-			'post_title'  => esc_html__( 'New Stripe', 'ggem' ),
+			'post_title'  => esc_html__( 'New Paypal', 'ggem' ),
 		];
 
 		$args = wp_parse_args( $data, $defaults );
 
 		/**
-		 * Fired before a stripe is created
+		 * Fired before a ebay is created
 		 *
 		 * @param array $args The post object arguments used for creation.
 		 */
@@ -86,40 +86,40 @@ class Stripe_Entity {
 
 		$id = wp_insert_post( $args, true );
 
-		$stripe = WP_Post::get_instance( $id );
+		$ebay = WP_Post::get_instance( $id );
 
 		/**
-		 * Fired after a stripe is created
+		 * Fired after a ebay is created
 		 *
 		 * @param int   $id   The post ID of the created item.
 		 * @param array $args The post object arguments used for creation.
 		 */
 		do_action( 'ggem_post_create', $id, $args );
 
-		return $this->setup( $stripe );
+		return $this->setup( $ebay );
 
 	}
 
 	/**
-	 * Given the stripe data, let's set the variables
+	 * Given the ebay data, let's set the variables
 	 *
-	 * @param WP_Post $stripe The WP_Post object for stripe.
+	 * @param WP_Post $ebay The WP_Post object for ebay.
 	 * @return bool         If the setup was successful or not
 	 */
-	private function setup( $stripe ) {
-		if ( ! is_object( $stripe ) ) {
+	private function setup( $ebay ) {
+		if ( ! is_object( $ebay ) ) {
 			return false;
 		}
 
-		if ( ! $stripe instanceof WP_Post ) {
+		if ( ! $ebay instanceof WP_Post ) {
 			return false;
 		}
 
-		if ( 'ggem_stripe' !== $stripe->post_type ) {
+		if ( 'ggem_ebay' !== $ebay->post_type ) {
 			return false;
 		}
 
-		foreach ( $stripe as $key => $value ) {
+		foreach ( $ebay as $key => $value ) {
 			$this->$key = $value;
 		}
 
@@ -198,94 +198,34 @@ class Stripe_Entity {
 		return true;
 	}
 
-	public function get_status_code() {
-		return $this->post_status;
+	public function get_sku() {
+		return $this->get_meta( 'sku' );
 	}
 
-	public function get_limit_per_day() {
-		$limit = $this->get_meta( 'limit_money_per_day' );
-
-		return $limit ? (float) $limit : (float) ggem_get_option( 'limit_money_per_day', 300 );
+	public function get_email() {
+		return $this->get_meta( 'email' );
 	}
 
-	public function get_publishable_key() {
-		return $this->get_meta( 'publishable_key' );
+	public function get_user_id() {
+		return $this->get_meta( 'user_id' );
 	}
 
-	public function get_secret_key() {
-		return $this->get_meta( 'secret_key' );
+	public function get_status() {
+		return $this->get_meta( 'status' );
 	}
 
-	public function get_webhook_secret() {
-		return $this->get_meta( 'webhook_secret' );
-	}
+	public function get_status_label() {
+		$statuses = ggem_get_account_statuses();
+		$status   = $this->get_status();
 
-	public function get_test_publishable_key() {
-		return $this->get_meta( 'test_publishable_key' );
-	}
-
-	public function get_test_secret_key() {
-		return $this->get_meta( 'test_secret_key' );
-	}
-
-	public function get_test_webhook_secret() {
-		return $this->get_meta( 'test_webhook_secret' );
-	}
-
-	public function get_truncated_pk() {
-		return mb_substr( $this->get_publishable_key(), 0, 12 ) . '...' . substr( $this->get_publishable_key(), -4 );
-	}
-
-	public function get_truncated_test_pk() {
-		return mb_substr( $this->get_test_publishable_key(), 0, 12 ) . '...' . substr( $this->get_test_publishable_key(), -4 );
-	}
-
-	public function get_stats() {
-		$stats = $this->get_meta( 'stats' );
-
-		return $stats ? $stats : [];
-	}
-
-	public function get_current_date_stats() {
-		return date( 'Y-m-d', time() );
-	}
-
-	public function get_deposit( $date = '' ) {
-		if ( ! $date ) {
-			$date = $this->get_current_date_stats();
+		if ( array_key_exists( $status, $statuses ) ) {
+			return $statuses[ $status ];
 		}
 
-		$stats = $this->get_stats();
-		if ( ! isset( $stats[ $date ] ) ) {
-			return 0;
-		}
-
-		return $stats[ $date ]['deposit'] ? (float) $stats[ $date ]['deposit'] : 0;
+		return __( 'Active', 'ggem' );
 	}
 
-	public function get_count_order( $date = '' ) {
-		if ( ! $date ) {
-			$date = $this->get_current_date_stats();
-		}
-
-		$stats = $this->get_stats();
-		if ( ! isset( $stats[ $date ] ) ) {
-			return 0;
-		}
-
-		return $stats[ $date ]['count_order'] ? absint( $stats[ $date ]['count_order'] ) : 0;
-	}
-
-	public function get_orders( $date = '' ) {
-		if ( ! $date ) {
-			$date = $this->get_current_date_stats();
-		}
-
-		$stats = $this->get_stats();
-		if ( ! isset( $stats[ $date ] ) ) {
-			return [];
-		}
-
-		return $stats[ $date ]['orders'] ? $stats[ $date ]['orders'] : [];
+	public function get_note() {
+		return $this->get_meta( 'note' );
 	}
 }

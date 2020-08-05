@@ -1,9 +1,10 @@
 <?php
 namespace GGEM\Admin;
 
-use GGEM\Admin\Column\Paypal_Column;
+use GGEM\Admin\Column\EBay_Column;
 use GGEM\Admin\Column\Stripe_Column;
 use GGEM\Admin\Setting as Setting;
+use GGEM\Admin\Table\EBay_Filter;
 use GGEM\Libraries as Libraries;
 
 /**
@@ -54,8 +55,8 @@ class Admin {
 		$this->version            = $version;
 		$this->plugin_text_domain = $plugin_text_domain;
 
-		new Paypal_Column();
-		new Stripe_Column();
+		new EBay_Column();
+		new EBay_Filter();
 	}
 
 	public $settings_objs = [];

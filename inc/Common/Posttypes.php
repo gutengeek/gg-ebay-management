@@ -55,7 +55,7 @@ class Posttypes {
 		register_post_type( 'ggem_ebay',
 			apply_filters( 'ggem_ebay_post_type_parameters', [
 				'labels'              => $labels,
-				'supports'            => [ 'title', 'editor' ],
+				'supports'            => [ 'title', 'editor', 'excerpt' ],
 				'public'              => true,
 				'has_archive'         => true,
 				'menu_position'       => 51,

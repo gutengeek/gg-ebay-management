@@ -40,20 +40,129 @@ function ggem_get_option( $key, $default = '' ) {
  * Create a new Paypal object.
  *
  * @param $id
- * @return \GGEM\Common\Model\Entity\Paypal_Entity
+ * @return \GGEM\Common\Model\Entity\EBay_Entity
  */
-function ggem_paypal( $id ) {
-	return new \GGEM\Common\Model\Entity\Paypal_Entity( $id );
+function ggem_ebay( $id ) {
+	return new \GGEM\Common\Model\Entity\EBay_Entity( $id );
 }
 
 /**
- * Create a new Paypal object.
+ * Get account statuses.
  *
- * @param $id
- * @return \GGEM\Common\Model\Entity\Stripe_Entity
+ * @return array
  */
-function ggem_stripe( $id ) {
-	return new \GGEM\Common\Model\Entity\Stripe_Entity( $id );
+function ggem_get_account_statuses() {
+	return [
+		'active'    => esc_html__( 'Active', 'ggem' ),
+		'suspended' => esc_html__( 'Suspended', 'ggem' ),
+		'limited'   => esc_html__( 'Limited', 'ggem' ),
+		'removed'   => esc_html__( 'Removed', 'ggem' ),
+	];
+}
+
+/**
+ * Dropdown categories.
+ *
+ * @param array $args Args to control display of dropdown.
+ */
+function ggem_dropdown_servers( $args = [] ) {
+	global $wp_query;
+
+	$args = wp_parse_args(
+		$args,
+		[
+			'pad_counts'         => 1,
+			'show_count'         => 1,
+			'hierarchical'       => 1,
+			'hide_empty'         => 1,
+			'show_uncategorized' => 1,
+			'orderby'            => 'name',
+			'selected'           => isset( $wp_query->query_vars['ggem_server'] ) ? $wp_query->query_vars['ggem_server'] : '',
+			'show_option_none'   => __( 'Select a server', 'ggem' ),
+			'option_none_value'  => '',
+			'value_field'        => 'slug',
+			'taxonomy'           => 'ggem_server',
+			'name'               => 'ggem_server',
+			'class'              => 'dropdown_ggem_server',
+		]
+	);
+
+	if ( 'order' === $args['orderby'] ) {
+		$args['orderby']  = 'meta_value_num';
+		$args['meta_key'] = 'order'; // phpcs:ignore
+	}
+
+	wp_dropdown_categories( $args );
+}
+
+/**
+ * Dropdown categories.
+ *
+ * @param array $args Args to control display of dropdown.
+ */
+function ggem_dropdown_payments( $args = [] ) {
+	global $wp_query;
+
+	$args = wp_parse_args(
+		$args,
+		[
+			'pad_counts'         => 1,
+			'show_count'         => 1,
+			'hierarchical'       => 1,
+			'hide_empty'         => 1,
+			'show_uncategorized' => 1,
+			'orderby'            => 'name',
+			'selected'           => isset( $wp_query->query_vars['ggem_payment'] ) ? $wp_query->query_vars['ggem_payment'] : '',
+			'show_option_none'   => __( 'Select a payment', 'ggem' ),
+			'option_none_value'  => '',
+			'value_field'        => 'slug',
+			'taxonomy'           => 'ggem_payment',
+			'name'               => 'ggem_payment',
+			'class'              => 'dropdown_ggem_payment',
+		]
+	);
+
+	if ( 'order' === $args['orderby'] ) {
+		$args['orderby']  = 'meta_value_num';
+		$args['meta_key'] = 'order'; // phpcs:ignore
+	}
+
+	wp_dropdown_categories( $args );
+}
+
+/**
+ * Dropdown categories.
+ *
+ * @param array $args Args to control display of dropdown.
+ */
+function ggem_dropdown_groups( $args = [] ) {
+	global $wp_query;
+
+	$args = wp_parse_args(
+		$args,
+		[
+			'pad_counts'         => 1,
+			'show_count'         => 1,
+			'hierarchical'       => 1,
+			'hide_empty'         => 1,
+			'show_uncategorized' => 1,
+			'orderby'            => 'name',
+			'selected'           => isset( $wp_query->query_vars['ggem_group'] ) ? $wp_query->query_vars['ggem_group'] : '',
+			'show_option_none'   => __( 'Select a group', 'ggem' ),
+			'option_none_value'  => '',
+			'value_field'        => 'slug',
+			'taxonomy'           => 'ggem_group',
+			'name'               => 'ggem_group',
+			'class'              => 'dropdown_ggem_group',
+		]
+	);
+
+	if ( 'order' === $args['orderby'] ) {
+		$args['orderby']  = 'meta_value_num';
+		$args['meta_key'] = 'order'; // phpcs:ignore
+	}
+
+	wp_dropdown_categories( $args );
 }
 
 if ( ! function_exists( 'ggem_write_log' ) ) {

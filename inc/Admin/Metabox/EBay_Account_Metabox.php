@@ -35,14 +35,15 @@ class EBay_Account_Metabox extends Metabox {
 	}
 
 	public function render_status_metabox( $post ) {
-		$note = get_post_meta( $post->ID, GGEM_METABOX_PREFIX . 'status', true );
+		$current_status = get_post_meta( $post->ID, GGEM_METABOX_PREFIX . 'status', true );
+
+		$statuses = ggem_get_account_statuses();
 		?>
-		<select name="" id="">
-			<option value="">active</option>
-			<option value="">suspended</option>
-			<option value="">limit</option>
-			<option value="">removed</option>
-		</select>
+        <select name="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>" id="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>">
+			<?php foreach ( $statuses as $status => $status_label ) : ?>
+                <option value="<?php echo esc_attr( $status ); ?>" <?php selected( $status, $current_status, true ); ?>><?php echo esc_html( $status_label ); ?></option>
+			<?php endforeach; ?>
+        </select>
 		<?php
 	}
 
@@ -65,6 +66,10 @@ class EBay_Account_Metabox extends Metabox {
 
 		if ( isset( $_POST[ GGEM_METABOX_PREFIX . 'note' ] ) ) {
 			update_post_meta( $post_id, GGEM_METABOX_PREFIX . 'note', $_POST[ GGEM_METABOX_PREFIX . 'note' ] );
+		}
+
+		if ( isset( $_POST[ GGEM_METABOX_PREFIX . 'status' ] ) ) {
+			update_post_meta( $post_id, GGEM_METABOX_PREFIX . 'status', $_POST[ GGEM_METABOX_PREFIX . 'status' ] );
 		}
 	}
 
@@ -114,6 +119,16 @@ class EBay_Account_Metabox extends Metabox {
 			[
 				'name' => esc_html__( 'Email', 'ggem' ),
 				'id'   => $prefix . 'email',
+				'type' => 'text',
+			],
+			[
+				'name' => esc_html__( 'User ID', 'ggem' ),
+				'id'   => $prefix . 'user_id',
+				'type' => 'text',
+			],
+			[
+				'name' => esc_html__( 'Password', 'ggem' ),
+				'id'   => $prefix . 'password',
 				'type' => 'text',
 			],
 			[
