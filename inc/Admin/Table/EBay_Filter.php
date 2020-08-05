@@ -129,8 +129,6 @@ class EBay_Filter {
 	 * Query custom fields as well as content.
 	 *
 	 * @param \WP_Query $wp The WP_Query object.
-	 *
-	 * @access private
 	 */
 	public function search_custom_fields( $wp ) {
 		global $pagenow;
@@ -142,7 +140,7 @@ class EBay_Filter {
 			return;
 		}
 
-		$post_ids = $this->search_account_by_term( ggem_clean( wp_unslash( $_GET['s'] ) ) ); // WPCS: input var ok, sanitization ok.
+		$post_ids = $this->search_account_by_meta( ggem_clean( wp_unslash( $_GET['s'] ) ) ); // WPCS: input var ok, sanitization ok.
 
 		if ( ! empty( $post_ids ) ) {
 			// Remove "s" - we don't want to search order name.
@@ -154,14 +152,14 @@ class EBay_Filter {
 	}
 
 	/**
-	 * Query property data for a term and return IDs.
+	 * Query account data for a term and return IDs.
 	 *
 	 * Use for 'post__in' in WP_Query.
 	 *
 	 * @param string $term The term to search.
 	 * @return array
 	 */
-	protected function search_account_by_term( $term ) {
+	protected function search_account_by_meta( $term ) {
 		global $wpdb;
 
 		// Filters the search fields.
@@ -172,10 +170,10 @@ class EBay_Filter {
 		] ) );
 
 		// Prepare search bookings.
-		$property_ids = [];
+		$account_ids = [];
 
 		if ( is_numeric( $term ) ) {
-			$property_ids[] = absint( $term );
+			$account_ids[] = absint( $term );
 		}
 
 		if ( ! empty( $search_fields ) ) {
@@ -185,9 +183,9 @@ class EBay_Filter {
 				'%' . $wpdb->esc_like( ggem_clean( $term ) ) . '%'
 			) );
 
-			$property_ids = array_unique( array_merge( $property_ids, $search ) );
+			$account_ids = array_unique( array_merge( $account_ids, $search ) );
 		}
 
-		return apply_filters( 'ggem_search_ebay_results', $property_ids, $term, $search_fields );
+		return apply_filters( 'ggem_search_ebay_results', $account_ids, $term, $search_fields );
 	}
 }
