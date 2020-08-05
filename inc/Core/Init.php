@@ -80,10 +80,7 @@ class Init {
 
 		$this->define_core_hook();
 
-		// add_action( 'wp_loaded', [$this, 'define_core_hook'] );
-
 		$this->define_intergrations();
-
 
 		$this->form = Form::get_instance();
 		$this->load_modules();
@@ -120,7 +117,6 @@ class Init {
 	}
 
 	public function load_modules() {
-		new Report();
 	}
 
 	/**
@@ -247,8 +243,7 @@ class Init {
 	}
 
 	public function define_core_hook() {
-		new Paypal_Hook();
-		new Stripe_Hook();
+
 	}
 
 	/**

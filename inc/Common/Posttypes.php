@@ -129,5 +129,33 @@ class Posttypes {
 				]
 			)
 		);
+
+		register_taxonomy(
+			'ggem_group',
+			apply_filters( 'ggem_taxonomy_objects_group', [ 'ggem_ebay' ] ),
+			apply_filters(
+				'ggem_taxonomy_args_group',
+				[
+					'hierarchical' => true,
+					'label'        => __( 'Groups', 'ggem' ),
+					'labels'       => [
+						'name'              => __( 'Groups', 'ggem' ),
+						'singular_name'     => __( 'Group', 'ggem' ),
+						'menu_name'         => _x( 'Groups', 'Admin menu name', 'ggem' ),
+						'search_items'      => __( 'Search groups', 'ggem' ),
+						'all_items'         => __( 'All groups', 'ggem' ),
+						'parent_item'       => __( 'Parent group', 'ggem' ),
+						'parent_item_colon' => __( 'Parent group:', 'ggem' ),
+						'edit_item'         => __( 'Edit group', 'ggem' ),
+						'update_item'       => __( 'Update group', 'ggem' ),
+						'add_new_item'      => __( 'Add new group', 'ggem' ),
+						'new_item_name'     => __( 'New group name', 'ggem' ),
+						'not_found'         => __( 'No groups found', 'ggem' ),
+					],
+					'show_ui'      => true,
+					'query_var'    => true,
+				]
+			)
+		);
 	}
 }
