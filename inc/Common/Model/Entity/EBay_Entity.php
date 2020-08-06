@@ -223,7 +223,7 @@ class EBay_Entity {
 	}
 
 	public function get_status() {
-		return $this->get_meta( 'status' );
+		return $this->post_status;
 	}
 
 	public function get_status_label() {
@@ -234,7 +234,7 @@ class EBay_Entity {
 			return $statuses[ $status ];
 		}
 
-		return __( 'Active', 'ggem' );
+		return $status;
 	}
 
 	public function get_note() {

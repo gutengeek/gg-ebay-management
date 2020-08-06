@@ -19,7 +19,7 @@ class EBay_Account_Metabox extends Metabox {
 		$this->metabox_label = esc_html__( 'Account Settings', 'ggem' );
 
 		add_action( 'add_meta_boxes', [ $this, 'add_side_metaboxes' ] );
-		add_action( 'save_post', [ $this, 'save_note' ] );
+		add_action( 'save_post', [ $this, 'save_metaboxes' ] );
 	}
 
 	public function add_side_metaboxes() {
@@ -35,11 +35,11 @@ class EBay_Account_Metabox extends Metabox {
 	}
 
 	public function render_status_metabox( $post ) {
-		$current_status = get_post_meta( $post->ID, GGEM_METABOX_PREFIX . 'status', true );
+		$current_status = get_post_status( $post->ID );
 
 		$statuses = ggem_get_account_statuses();
 		?>
-        <select name="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>" id="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>">
+        <select name="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>" id="<?php echo GGEM_METABOX_PREFIX . 'status'; ?>" style="width: 100%;">
 			<?php foreach ( $statuses as $status => $status_label ) : ?>
                 <option value="<?php echo esc_attr( $status ); ?>" <?php selected( $status, $current_status, true ); ?>><?php echo esc_html( $status_label ); ?></option>
 			<?php endforeach; ?>
@@ -47,7 +47,7 @@ class EBay_Account_Metabox extends Metabox {
 		<?php
 	}
 
-	public function save_note( $post_id ) {
+	public function save_metaboxes( $post_id ) {
 		if ( ! isset( $_POST['ggem_meta_nonce'] ) ) {
 			return;
 		}
@@ -65,11 +65,18 @@ class EBay_Account_Metabox extends Metabox {
 		}
 
 		if ( isset( $_POST[ GGEM_METABOX_PREFIX . 'note' ] ) ) {
-			update_post_meta( $post_id, GGEM_METABOX_PREFIX . 'note', $_POST[ GGEM_METABOX_PREFIX . 'note' ] );
+			update_post_meta( $post_id, GGEM_METABOX_PREFIX . 'note', sanitize_text_field( $_POST[ GGEM_METABOX_PREFIX . 'note' ] ) );
 		}
 
 		if ( isset( $_POST[ GGEM_METABOX_PREFIX . 'status' ] ) ) {
-			update_post_meta( $post_id, GGEM_METABOX_PREFIX . 'status', $_POST[ GGEM_METABOX_PREFIX . 'status' ] );
+			remove_action( 'save_post', [ $this, 'save_metaboxes' ] );
+
+			wp_update_post( [
+				'ID'          => $post_id,
+				'post_status' => sanitize_text_field( $_POST[ GGEM_METABOX_PREFIX . 'status' ] ),
+			] );
+
+			add_action( 'save_post', [ $this, 'save_metaboxes' ] );
 		}
 	}
 

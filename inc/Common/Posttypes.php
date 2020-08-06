@@ -26,6 +26,7 @@ class Posttypes {
 
 		static::register_ebay_account();
 		static::register_taxonomies();
+		static::register_post_status();
 	}
 
 	/**
@@ -160,5 +161,56 @@ class Posttypes {
 				]
 			)
 		);
+	}
+
+	/**
+	 * Register our custom post statuses, used for order status.
+	 */
+	public static function register_post_status() {
+		$order_statuses = apply_filters(
+			'ggem_register_account_statuses',
+			[
+				'ggem-active'    => [
+					'label'                     => _x( 'Active', 'Account status', 'ggem' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'ggem' ),
+				],
+				'ggem-suspended' => [
+					'label'                     => _x( 'Suspended', 'Account status', 'ggem' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Suspended <span class="count">(%s)</span>', 'Suspended <span class="count">(%s)</span>', 'ggem' ),
+				],
+				'ggem-limited'   => [
+					'label'                     => _x( 'Limited', 'Account status', 'ggem' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Limited <span class="count">(%s)</span>', 'Limited <span class="count">(%s)</span>', 'ggem' ),
+				],
+				'ggem-removed'   => [
+					'label'                     => _x( 'Removed', 'Account status', 'ggem' ),
+					'public'                    => true,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Removed <span class="count">(%s)</span>', 'Removed <span class="count">(%s)</span>', 'ggem' ),
+				],
+			]
+		);
+
+		foreach ( $order_statuses as $order_status => $values ) {
+			register_post_status( $order_status, $values );
+		}
 	}
 }

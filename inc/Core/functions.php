@@ -53,10 +53,10 @@ function ggem_ebay( $id ) {
  */
 function ggem_get_account_statuses() {
 	return [
-		'active'    => esc_html__( 'Active', 'ggem' ),
-		'suspended' => esc_html__( 'Suspended', 'ggem' ),
-		'limited'   => esc_html__( 'Limited', 'ggem' ),
-		'removed'   => esc_html__( 'Removed', 'ggem' ),
+		'ggem-active'    => esc_html__( 'Active', 'ggem' ),
+		'ggem-suspended' => esc_html__( 'Suspended', 'ggem' ),
+		'ggem-limited'   => esc_html__( 'Limited', 'ggem' ),
+		'ggem-removed'   => esc_html__( 'Removed', 'ggem' ),
 	];
 }
 
