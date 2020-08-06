@@ -206,8 +206,20 @@ class EBay_Entity {
 		return $this->get_meta( 'email' );
 	}
 
+	public function get_password() {
+		return $this->get_meta( 'password' );
+	}
+
 	public function get_user_id() {
 		return $this->get_meta( 'user_id' );
+	}
+
+	public function get_first_name() {
+		return $this->get_meta( 'first_name' );
+	}
+
+	public function get_last_name() {
+		return $this->get_meta( 'last_name' );
 	}
 
 	public function get_status() {
