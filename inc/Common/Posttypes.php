@@ -164,10 +164,10 @@ class Posttypes {
 	}
 
 	/**
-	 * Register our custom post statuses, used for order status.
+	 * Register our custom post statuses, used for account status.
 	 */
 	public static function register_post_status() {
-		$order_statuses = apply_filters(
+		$account_statuses = apply_filters(
 			'ggem_register_account_statuses',
 			[
 				'ggem-active'    => [
@@ -176,7 +176,7 @@ class Posttypes {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
-					/* translators: %s: number of orders */
+					/* translators: %s: number of account */
 					'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'ggem' ),
 				],
 				'ggem-suspended' => [
@@ -185,7 +185,7 @@ class Posttypes {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
-					/* translators: %s: number of orders */
+					/* translators: %s: number of account */
 					'label_count'               => _n_noop( 'Suspended <span class="count">(%s)</span>', 'Suspended <span class="count">(%s)</span>', 'ggem' ),
 				],
 				'ggem-limited'   => [
@@ -194,7 +194,7 @@ class Posttypes {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
-					/* translators: %s: number of orders */
+					/* translators: %s: number of account */
 					'label_count'               => _n_noop( 'Limited <span class="count">(%s)</span>', 'Limited <span class="count">(%s)</span>', 'ggem' ),
 				],
 				'ggem-removed'   => [
@@ -203,14 +203,14 @@ class Posttypes {
 					'exclude_from_search'       => false,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
-					/* translators: %s: number of orders */
+					/* translators: %s: number of account */
 					'label_count'               => _n_noop( 'Removed <span class="count">(%s)</span>', 'Removed <span class="count">(%s)</span>', 'ggem' ),
 				],
 			]
 		);
 
-		foreach ( $order_statuses as $order_status => $values ) {
-			register_post_status( $order_status, $values );
+		foreach ( $account_statuses as $account_status => $values ) {
+			register_post_status( $account_status, $values );
 		}
 	}
 }
