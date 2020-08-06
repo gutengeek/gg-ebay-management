@@ -60,7 +60,7 @@ class Posttypes {
 				'has_archive'         => true,
 				'menu_position'       => 51,
 				'map_meta_cap'        => true,
-				'publicly_queryable'  => true,
+				'publicly_queryable'  => false,
 				'exclude_from_search' => false,
 				'query_var'           => true,
 				'hierarchical'        => false,
@@ -80,9 +80,9 @@ class Posttypes {
 			apply_filters(
 				'ggem_taxonomy_args_server',
 				[
-					'hierarchical' => true,
-					'label'        => __( 'Servers', 'ggem' ),
-					'labels'       => [
+					'hierarchical'       => true,
+					'label'              => __( 'Servers', 'ggem' ),
+					'labels'             => [
 						'name'              => __( 'Servers', 'ggem' ),
 						'singular_name'     => __( 'Server', 'ggem' ),
 						'menu_name'         => _x( 'Servers', 'Admin menu name', 'ggem' ),
@@ -96,8 +96,9 @@ class Posttypes {
 						'new_item_name'     => __( 'New server name', 'ggem' ),
 						'not_found'         => __( 'No servers found', 'ggem' ),
 					],
-					'show_ui'      => true,
-					'query_var'    => true,
+					'publicly_queryable' => false,
+					'show_ui'            => true,
+					'query_var'          => true,
 				]
 			)
 		);
@@ -108,9 +109,9 @@ class Posttypes {
 			apply_filters(
 				'ggem_taxonomy_args_payment',
 				[
-					'hierarchical' => true,
-					'label'        => __( 'Payments', 'ggem' ),
-					'labels'       => [
+					'hierarchical'       => true,
+					'label'              => __( 'Payments', 'ggem' ),
+					'labels'             => [
 						'name'              => __( 'Payments', 'ggem' ),
 						'singular_name'     => __( 'Payment', 'ggem' ),
 						'menu_name'         => _x( 'Payments', 'Admin menu name', 'ggem' ),
@@ -124,8 +125,9 @@ class Posttypes {
 						'new_item_name'     => __( 'New payment name', 'ggem' ),
 						'not_found'         => __( 'No payments found', 'ggem' ),
 					],
-					'show_ui'      => true,
-					'query_var'    => true,
+					'publicly_queryable' => false,
+					'show_ui'            => true,
+					'query_var'          => true,
 				]
 			)
 		);
@@ -136,9 +138,9 @@ class Posttypes {
 			apply_filters(
 				'ggem_taxonomy_args_group',
 				[
-					'hierarchical' => true,
-					'label'        => __( 'Groups', 'ggem' ),
-					'labels'       => [
+					'hierarchical'       => true,
+					'label'              => __( 'Groups', 'ggem' ),
+					'labels'             => [
 						'name'              => __( 'Groups', 'ggem' ),
 						'singular_name'     => __( 'Group', 'ggem' ),
 						'menu_name'         => _x( 'Groups', 'Admin menu name', 'ggem' ),
@@ -152,8 +154,9 @@ class Posttypes {
 						'new_item_name'     => __( 'New group name', 'ggem' ),
 						'not_found'         => __( 'No groups found', 'ggem' ),
 					],
-					'show_ui'      => true,
-					'query_var'    => true,
+					'publicly_queryable' => false,
+					'show_ui'            => true,
+					'query_var'          => true,
 				]
 			)
 		);

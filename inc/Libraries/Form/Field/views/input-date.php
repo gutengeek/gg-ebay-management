@@ -74,7 +74,7 @@ if ( $args['show_label'] ) {
 $output .= '<input type="text" name="' . esc_attr( $args['id'] ) . '" id="' . sanitize_key( $this->form_id . $args['id'] ) . '" ' . $value . ' placeholder="' .
            esc_attr( $args['placeholder'] ) . '" class="' . $args['class'] . '" ' . $data . '' . $disabled . $data_datepicker . '/>';
 
-$output .= '<input type="hidden" name="' . esc_attr( $args['hidden_id'] ) . '" id="' . sanitize_key( $this->form_id . $args['hidden_id'] ) . '" value="' . esc_attr( $args['id_value'] ) . '" />';
+$output .= '<input type="hidden" name="' . esc_attr( $args['hidden_id'] ) . '" id="' . sanitize_key( $args['hidden_id'] ) . '" value="' . esc_attr( $args['id_value'] ) . '" />';
 
 if ( ! empty( $args['description'] ) ) {
 	$output .= '<p class="ggem-description">' . $args['description'] . '</p>';

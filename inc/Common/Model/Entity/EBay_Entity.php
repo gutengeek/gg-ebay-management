@@ -228,4 +228,12 @@ class EBay_Entity {
 	public function get_note() {
 		return $this->get_meta( 'note' );
 	}
+
+	public function get_date_registerd() {
+		return $this->get_meta( 'date_registered' );
+	}
+
+	public function get_date_registerd_timestamp() {
+		return $this->get_meta( 'date_registered_id' );
+	}
 }

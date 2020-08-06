@@ -101,9 +101,8 @@ class Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		$suffix = ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ? '.min' : '';
 		wp_enqueue_script( 'select2', GGEM_URL . 'assets/3rd/select2/js/select2.min.js', null, '4.0.7', false );
-		// wp_enqueue_script( $this->plugin_name . '_admin', GGEM_URL . 'assets/js/admin' . $suffix . '.js', [ 'jquery-ui-sortable' ], $this->version, false );
+		wp_enqueue_script( 'ggem-admin', GGEM_URL . 'assets/js/admin.js', [], $this->version, false );
 
 		do_action( 'ggem_admin_enqueue_scripts', $this );
 	}
@@ -142,7 +141,7 @@ class Admin {
 	private function load_object_settings() {
 		if ( empty( $this->settings_objs ) ) {
 			$matching = apply_filters( 'ggem_load_settings', [
-				'general'          => Setting\General::class,
+				'general' => Setting\General::class,
 			] );
 
 			foreach ( $matching as $match => $class ) {
