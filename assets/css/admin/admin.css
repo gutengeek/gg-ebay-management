@@ -230,6 +230,13 @@ label.ggem-label {
   color: #761919;
 }
 
+.ggem-popup-top-status {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  height: 40px;
+}
+
 .ggem-wrap {
   font-size: 11px;
   color: #141823;

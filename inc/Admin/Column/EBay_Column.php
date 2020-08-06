@@ -267,6 +267,11 @@ class EBay_Column {
                                     &nbsp<i class="dashicons dashicons-edit-large"></i>
                                 </a>
                             </h3>
+	                        <div class="ggem-popup-top-status">
+		                        <mark class="ggem-account-status <?php echo esc_attr( $account->get_status() ); ?>">
+			                        <span><?php echo esc_html( $account->get_status_label() ); ?></span>
+		                        </mark>
+	                        </div>
                             <div class="ggem-popup-top-close ggem-popup-close" tabindex="0" title="<?php esc_attr_e( 'Close', 'ggem' ); ?>">
                                 <span class="dashicons dashicons-no-alt"></span>
                             </div>
