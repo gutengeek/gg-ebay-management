@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       GG Ebay Management
+ * Plugin Name:       GG eBay Management
  * Plugin URI:        https://gutengeek.com
- * Description:       GG Ebay Management
+ * Description:       GG eBay Management helps you manage eBay accounts, payment accounts, server accounts,...
  * Version:           1.0.0
  * Author:            GutenGeek
  * Author URI:        https://gutengeek.com/contact
