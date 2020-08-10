@@ -78,8 +78,7 @@ class Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		$suffix = ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ? '.min' : '';
-		wp_enqueue_style( $this->plugin_name . '_admin', GGEM_URL . 'assets/css/admin/admin' . $suffix . '.css', [], $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '_admin', GGEM_URL . 'assets/css/admin/admin.css', [], $this->version, 'all' );
 
 		wp_enqueue_style( 'select2', GGEM_URL . 'assets/3rd/select2/css/select2.min.css', null, '4.0.7', false );
 	}
