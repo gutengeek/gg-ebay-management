@@ -51,12 +51,55 @@ function ggem_ebay( $id ) {
  *
  * @return array
  */
+function ggem_get_related_payments() {
+	$terms = get_terms( [
+		'taxonomy'   => 'ggem_payment',
+		'hide_empty' => false,
+	] );
+
+	return wp_list_pluck( $terms, 'name', 'slug' );
+}
+
+/**
+ * Get account statuses.
+ *
+ * @return array
+ */
 function ggem_get_account_statuses() {
 	return [
 		'ggem-active'    => esc_html__( 'Active', 'ggem' ),
 		'ggem-suspended' => esc_html__( 'Suspended', 'ggem' ),
 		'ggem-limited'   => esc_html__( 'Limited', 'ggem' ),
 		'ggem-removed'   => esc_html__( 'Removed', 'ggem' ),
+	];
+}
+
+/**
+ * Get payment statuses.
+ *
+ * @return array
+ */
+function ggem_get_payment_statuses() {
+	return [
+		'ggem-active'    => esc_html__( 'Active', 'ggem' ),
+		'ggem-suspended' => esc_html__( 'Suspended', 'ggem' ),
+		'ggem-limited'   => esc_html__( 'Limited', 'ggem' ),
+		'ggem-removed'   => esc_html__( 'Removed', 'ggem' ),
+		'ggem-expired'   => esc_html__( 'Expired', 'ggem' ),
+	];
+}
+
+/**
+ * Get server statuses.
+ *
+ * @return array
+ */
+function ggem_get_server_statuses() {
+	return [
+		'ggem-active'    => esc_html__( 'Active', 'ggem' ),
+		'ggem-suspended' => esc_html__( 'Suspended', 'ggem' ),
+		'ggem-removed'   => esc_html__( 'Removed', 'ggem' ),
+		'ggem-expired'   => esc_html__( 'Expired', 'ggem' ),
 	];
 }
 

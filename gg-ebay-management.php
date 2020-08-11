@@ -3,7 +3,7 @@
  * Plugin Name:       GG eBay Management
  * Plugin URI:        https://gutengeek.com
  * Description:       GG eBay Management helps you manage eBay accounts, payment accounts, server accounts,...
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            GutenGeek
  * Author URI:        https://gutengeek.com/contact
  * License:           GPL-2.0+
@@ -25,7 +25,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Define Constants
  */
 define( 'GGEM', 'ggem' );
-define( 'GGEM_VERSION', '1.0.1' );
+define( 'GGEM_VERSION', '1.0.2' );
 define( 'GGEM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GGEM_URL', plugin_dir_url( __FILE__ ) );
 define( 'GGEM_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

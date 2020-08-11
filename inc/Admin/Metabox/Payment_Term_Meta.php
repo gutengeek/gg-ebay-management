@@ -32,7 +32,7 @@ class Payment_Term_Meta extends Metabox {
 	 * Get settings
 	 */
 	public function get_settings() {
-		$prefix   = GGEM_METABOX_PREFIX;
+		$prefix = GGEM_METABOX_PREFIX;
 
 		$settings = [
 			[
@@ -44,6 +44,18 @@ class Payment_Term_Meta extends Metabox {
 				'name' => esc_html__( 'Password', 'ggem' ),
 				'id'   => $prefix . 'password',
 				'type' => 'text',
+			],
+			[
+				'name'    => esc_html__( 'Related', 'ggem' ),
+				'id'      => $prefix . 'related',
+				'type'    => 'select',
+				'options' => array_merge( [ '' => esc_html__( 'Select', 'ggem' ) ], ggem_get_related_payments() ),
+			],
+			[
+				'name'    => esc_html__( 'Status', 'ggem' ),
+				'id'      => $prefix . 'status',
+				'type'    => 'select',
+				'options' => ggem_get_payment_statuses(),
 			],
 			[
 				'name' => esc_html__( 'Date Registered', 'ggem' ),

@@ -32,7 +32,7 @@ class Server_Term_Meta extends Metabox {
 	 * Get settings
 	 */
 	public function get_settings() {
-		$prefix   = GGEM_METABOX_PREFIX;
+		$prefix = GGEM_METABOX_PREFIX;
 
 		$settings = [
 			[
@@ -54,6 +54,12 @@ class Server_Term_Meta extends Metabox {
 				'name' => esc_html__( 'Host Name', 'ggem' ),
 				'id'   => $prefix . 'host_name',
 				'type' => 'text',
+			],
+			[
+				'name'    => esc_html__( 'Status', 'ggem' ),
+				'id'      => $prefix . 'status',
+				'type'    => 'select',
+				'options' => ggem_get_server_statuses(),
 			],
 			[
 				'name' => esc_html__( 'Date Registered', 'ggem' ),

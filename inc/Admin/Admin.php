@@ -2,7 +2,8 @@
 namespace GGEM\Admin;
 
 use GGEM\Admin\Column\EBay_Column;
-use GGEM\Admin\Column\Stripe_Column;
+use GGEM\Admin\Column\Payment_Tax_Column;
+use GGEM\Admin\Column\Server_Tax_Column;
 use GGEM\Admin\Setting as Setting;
 use GGEM\Admin\Table\EBay_Filter;
 use GGEM\Libraries as Libraries;
@@ -56,6 +57,8 @@ class Admin {
 		$this->plugin_text_domain = $plugin_text_domain;
 
 		new EBay_Column();
+		new Payment_Tax_Column();
+		new Server_Tax_Column();
 		new EBay_Filter();
 	}
 
